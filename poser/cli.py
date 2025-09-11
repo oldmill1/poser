@@ -42,6 +42,12 @@ def main():
     )
     
     parser.add_argument(
+        "--backup-and-delete",
+        action="store_true",
+        help="Create a backup of your profile and delete it (start fresh)"
+    )
+    
+    parser.add_argument(
         "prompt",
         nargs="?",
         help="Prompt for pose generation"
@@ -60,6 +66,20 @@ def main():
                 sys.exit(1)
         except Exception as e:
             print(f"Error creating backup: {e}")
+            sys.exit(1)
+        return
+    
+    # Handle backup-and-delete command
+    if args.backup_and_delete:
+        try:
+            from .core import backup_and_delete_profile
+            if backup_and_delete_profile():
+                print("Profile backed up and deleted successfully. Next run will create a fresh profile.")
+            else:
+                print("Error: No profile found to backup and delete")
+                sys.exit(1)
+        except Exception as e:
+            print(f"Error backing up and deleting profile: {e}")
             sys.exit(1)
         return
     

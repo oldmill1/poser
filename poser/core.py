@@ -86,6 +86,38 @@ def backup_profile() -> bool:
     except IOError:
         return False
 
+def delete_profile() -> bool:
+    """
+    Delete the current profile file.
+    
+    Returns:
+        bool: True if deletion was successful, False otherwise
+    """
+    profile_path = get_profile_path()
+    
+    if not profile_path.exists():
+        return False
+    
+    try:
+        profile_path.unlink()
+        return True
+    except IOError:
+        return False
+
+def backup_and_delete_profile() -> bool:
+    """
+    Create a backup of the current profile and then delete it.
+    
+    Returns:
+        bool: True if both operations were successful, False otherwise
+    """
+    # First create backup
+    if not backup_profile():
+        return False
+    
+    # Then delete the original profile
+    return delete_profile()
+
 def get_profile_status() -> tuple[bool, Optional[Dict[str, Any]]]:
     """
     Check profile status and return (is_new_user, profile_data).
