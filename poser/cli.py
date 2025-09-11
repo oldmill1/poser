@@ -74,6 +74,50 @@ def main():
             sys.exit(1)
         return
     
+    # Handle remove-sample as a special case
+    if len(sys.argv) > 1 and sys.argv[1] == "remove-sample":
+        if len(sys.argv) < 3:
+            print("Usage: poser remove-sample <sample_id>")
+            print("Use 'poser list-samples' to see available sample IDs")
+            sys.exit(1)
+        sample_id = sys.argv[2]
+        
+        try:
+            from .core import remove_sample_from_profile
+            if remove_sample_from_profile(sample_id):
+                print(f"Sample {sample_id} removed successfully")
+            else:
+                print(f"Error: Sample {sample_id} not found")
+                sys.exit(1)
+        except Exception as e:
+            print(f"Error removing sample: {e}")
+            sys.exit(1)
+        return
+    
+    # Handle list-samples as a special case
+    if len(sys.argv) > 1 and sys.argv[1] == "list-samples":
+        try:
+            from .core import list_samples
+            samples = list_samples()
+            if samples is None:
+                print("No profile found")
+                sys.exit(1)
+            elif not samples:
+                print("No samples found in profile")
+            else:
+                print(f"Found {len(samples)} samples:")
+                print()
+                for sample in samples:
+                    print(f"ID: {sample['id']}")
+                    print(f"Label: {sample['user_label']}")
+                    print(f"Text: {sample['text'][:60]}{'...' if len(sample['text']) > 60 else ''}")
+                    print(f"Analysis: {sample['ai_analysis']['type']} | {sample['ai_analysis']['tone']} | {sample['ai_analysis']['audience']} | {sample['ai_analysis']['purpose']}")
+                    print("-" * 50)
+        except Exception as e:
+            print(f"Error listing samples: {e}")
+            sys.exit(1)
+        return
+    
     parser.add_argument(
         "prompt",
         nargs="?",

@@ -226,6 +226,44 @@ def add_sample_to_profile(user_label: str, text: str, api_key: Optional[str] = N
     # Save updated profile
     return save_profile(profile)
 
+def remove_sample_from_profile(sample_id: str) -> bool:
+    """
+    Remove a writing sample from the user's profile by ID.
+    
+    Args:
+        sample_id: The ID of the sample to remove
+        
+    Returns:
+        bool: True if sample was removed successfully, False otherwise
+    """
+    profile = load_profile()
+    if profile is None:
+        return False
+    
+    # Find and remove the sample
+    original_count = len(profile["samples"])
+    profile["samples"] = [sample for sample in profile["samples"] if sample["id"] != sample_id]
+    
+    # Check if a sample was actually removed
+    if len(profile["samples"]) < original_count:
+        # Save updated profile
+        return save_profile(profile)
+    else:
+        return False  # Sample not found
+
+def list_samples() -> Optional[list]:
+    """
+    List all samples in the user's profile.
+    
+    Returns:
+        List of sample dictionaries or None if no profile exists
+    """
+    profile = load_profile()
+    if profile is None:
+        return None
+    
+    return profile.get("samples", [])
+
 def get_profile_status() -> tuple[bool, Optional[Dict[str, Any]]]:
     """
     Check profile status and return (is_new_user, profile_data).
