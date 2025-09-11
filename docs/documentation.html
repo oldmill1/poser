@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poser Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Henny+Penny&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <nav class="site-navigation">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="documentation.html" class="nav-link">Documentation</a></li>
+            <li class="nav-item"><a href="examples.html" class="nav-link">Examples</a></li>
+            <li class="nav-item"><a href="community.html" class="nav-link">Community</a></li>
+        </ul>
+    </nav>
+    <h1>Poser Documentation</h1>
+    
+    
+    
+    <section>
+<h2>Installation</h2>
+<ol>
+<li><code>Clone the repository: `git clone https://github.com/ataxali/poser.git`</code></li>
+<li><code>Navigate to directory: `cd poser`</code></li>
+<li><code>Create virtual environment: `python3 -m venv venv`</code></li>
+<li><code>Activate environment: `source venv/bin/activate`</code> <dim>(Linux/Mac) or `venv\Scripts\activate` (Windows)</dim></li>
+<li><code>Install package: `pip install -e .`</code></li>
+<li><code>Set up API key: `export OPENAI_API_KEY='your-api-key-here'`</code></li>
+</ol>
+</section>
+<section>
+<h2>Basic Usage</h2>
+<ol>
+<li><code>Check profile status: `poser`</code></li>
+<li><code>Generate text: `poser 'write a slack message about my new app deployment'`</code></li>
+<li><code>Add writing sample: `poser add-sample 'slack update' 'Hey team, quick update...'`</code></li>
+<li><code>List samples: `poser list-samples`</code></li>
+<li><code>Remove sample: `poser remove-sample sample_20250911_185212`</code></li>
+<li><code>Backup profile: `poser --backup`</code></li>
+</ol>
+</section>
+<section>
+<h2>How It Works</h2>
+<ol>
+<li><code>**Add Writing Samples**: Provide examples of your writing style</code></li>
+<li><code>**AI Analysis**: Poser analyzes each sample to understand your patterns</code></li>
+<li><code>**Smart Matching**: When requesting text, it finds relevant samples</code></li>
+<li><code>**Style Generation**: Generates new text that matches your authentic voice</code></li>
+</ol>
+</section>
+<section>
+<h2>Example Output</h2>
+<ol>
+<li><code>**Request**: `'write a slack message about my new app deployment'`</code></li>
+<li><code>**Generated**:</code></li>
+<li><code>```</code></li>
+<li><code>hey team,</code></li>
+<li><code></code></li>
+<li><code>just a heads up that we've deployed the new version of the app! 🎉</code></li>
+<li><code>the commit hash is `b8f3e2c1d7a9c4e8a1c9e0f1b2c3d4e5f6a7890b`,</code></li>
+<li><code>and it includes a bunch of tweaks we talked about in the last sprint.</code></li>
+<li><code></code></li>
+<li><code>i've tested the main features in staging, and everything seems to be</code></li>
+<li><code>functioning as expected. however, i did notice a slight delay in some</code></li>
+<li><code>API responses—might be worth keeping an eye on.</code></li>
+<li><code></code></li>
+<li><code>let me know if you encounter any issues or if something feels off.</code></li>
+<li><code>happy testing!</code></li>
+<li><code>```</code></li>
+</ol>
+</section>
+<section>
+<h2>Requirements</h2>
+<ol>
+<li><code>Python 3.8 or higher</code></li>
+<li><code>OpenAI API key</code></li>
+<li><code>Writing samples to train the system</code></li>
+</ol>
+</section>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <span class="footer-text">Need help? Check the <code><a href="https://github.com/ataxali/poser/blob/main/USAGE.md" target="_blank" rel="noopener noreferrer">Usage Guide</a></code></span>
+        </div>
+    </footer>
+</body>
+</html>
