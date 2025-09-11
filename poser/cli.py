@@ -36,12 +36,48 @@ def main():
     )
     
     parser.add_argument(
+        "--backup",
+        action="store_true",
+        help="Create a backup of your profile"
+    )
+    
+    parser.add_argument(
         "prompt",
         nargs="?",
         help="Prompt for pose generation"
     )
     
     args = parser.parse_args()
+    
+    # Handle backup command
+    if args.backup:
+        try:
+            from .core import backup_profile
+            if backup_profile():
+                print("Profile backed up successfully to profile.json.backup")
+            else:
+                print("Error: No profile found to backup")
+                sys.exit(1)
+        except Exception as e:
+            print(f"Error creating backup: {e}")
+            sys.exit(1)
+        return
+    
+    # Check profile status first
+    try:
+        from .core import get_profile_status
+        is_new_user, profile = get_profile_status()
+        
+        if is_new_user:
+            print("Hey, you're new! Let me set you up!")
+            print("Welcome! Creating your profile...")
+        else:
+            sample_count = len(profile.get("samples", []))
+            print(f"Profile loaded with {sample_count} writing samples")
+            
+    except Exception as e:
+        print(f"Error initializing profile: {e}")
+        sys.exit(1)
     
     # Get API key
     api_key = args.api_key or os.getenv("OPENAI_API_KEY")
@@ -56,10 +92,12 @@ def main():
             result = generate_pose(args.prompt, api_key, args.model)
             print(result)
         except ImportError:
-            print("Error: Core functionality not yet implemented")
+            print("I'd generate text but that's not built yet")
             sys.exit(1)
     else:
-        parser.print_help()
+        # Just show the profile status and exit gracefully
+        # The profile message was already shown above
+        pass
 
 if __name__ == "__main__":
     main()
