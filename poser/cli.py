@@ -14,7 +14,7 @@ load_dotenv()
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
-        description="Poser - AI-powered posing and image generation",
+        description="Poser - AI-powered writing and communication assistant",
         prog="poser"
     )
     
@@ -50,7 +50,7 @@ def main():
     parser.add_argument(
         "prompt",
         nargs="?",
-        help="Prompt for pose generation"
+        help="Writing prompt or text to process"
     )
     
     args = parser.parse_args()
