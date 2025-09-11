@@ -55,9 +55,15 @@ def main():
         user_label = sys.argv[2]
         text = " ".join(sys.argv[3:])
         
+        # Get API key for AI analysis
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            print("Warning: No OPENAI_API_KEY found. Sample will be saved without AI analysis.")
+            print("Set OPENAI_API_KEY environment variable to enable AI analysis.")
+        
         try:
             from .core import add_sample_to_profile
-            if add_sample_to_profile(user_label, text):
+            if add_sample_to_profile(user_label, text, api_key):
                 print(f"Sample added successfully with label: '{user_label}'")
                 print(f"Text: {text[:50]}{'...' if len(text) > 50 else ''}")
             else:

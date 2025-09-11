@@ -8,6 +8,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Optional
+import openai
 
 def get_profile_path() -> Path:
     """Get the path to the user's profile file."""
@@ -138,13 +139,66 @@ def backup_and_delete_profile() -> bool:
     # Then delete the original profile
     return delete_profile()
 
-def add_sample_to_profile(user_label: str, text: str) -> bool:
+def analyze_sample_with_ai(text: str, api_key: str) -> Optional[Dict[str, Any]]:
+    """
+    Send a writing sample to AI for analysis and categorization.
+    
+    Args:
+        text: The writing sample text to analyze
+        api_key: OpenAI API key
+        
+    Returns:
+        Dict with analysis results or None if analysis failed
+    """
+    try:
+        client = openai.OpenAI(api_key=api_key)
+        
+        prompt = f"""Analyze this writing sample and categorize it:
+
+Text: "{text}"
+
+Please return a JSON object with:
+- type: email/slack/text/formal document
+- tone: casual/formal/frustrated/polite/urgent/neutral
+- audience: team/client/personal/external/colleague
+- purpose: update/request/complaint/inquiry/response/informational
+- tags: array of 2-5 relevant keywords
+
+Return only valid JSON, no other text."""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # Using mini for cost efficiency
+            messages=[
+                {"role": "system", "content": "You are a writing style analyst. Always return valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.1,  # Low temperature for consistent categorization
+            max_tokens=200
+        )
+        
+        # Parse the JSON response
+        analysis_text = response.choices[0].message.content.strip()
+        analysis = json.loads(analysis_text)
+        
+        # Validate the structure
+        required_fields = ["type", "tone", "audience", "purpose", "tags"]
+        if all(field in analysis for field in required_fields):
+            return analysis
+        else:
+            return None
+            
+    except Exception as e:
+        print(f"AI analysis failed: {e}")
+        return None
+
+def add_sample_to_profile(user_label: str, text: str, api_key: Optional[str] = None) -> bool:
     """
     Add a new writing sample to the user's profile.
     
     Args:
         user_label: User's personal label for the sample
         text: The actual writing sample text
+        api_key: Optional API key for AI analysis
         
     Returns:
         bool: True if sample was added successfully, False otherwise
@@ -155,6 +209,16 @@ def add_sample_to_profile(user_label: str, text: str) -> bool:
     
     # Create new sample structure
     new_sample = create_sample_structure(user_label, text)
+    
+    # Run AI analysis if API key is provided
+    if api_key:
+        print("Analyzing writing style...")
+        analysis = analyze_sample_with_ai(text, api_key)
+        if analysis:
+            new_sample["ai_analysis"] = analysis
+            print("✓ AI analysis complete")
+        else:
+            print("⚠ AI analysis failed, sample saved without analysis")
     
     # Add to samples list
     profile["samples"].append(new_sample)
