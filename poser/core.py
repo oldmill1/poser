@@ -317,6 +317,192 @@ def list_samples() -> Optional[list]:
     
     return profile.get("samples", [])
 
+def find_relevant_samples(request_analysis: Dict[str, Any], min_score: int = 4) -> list[Dict[str, Any]]:
+    """
+    Find writing samples that match a request analysis based on scoring criteria.
+    
+    Args:
+        request_analysis: Analysis of the user's request (from analyze_request_with_ai)
+        min_score: Minimum score required for a sample to be considered relevant (default: 4)
+        
+    Returns:
+        List of relevant samples with their scores, sorted by score (highest first)
+    """
+    profile = load_profile()
+    if profile is None or not profile.get("samples"):
+        return []
+    
+    scored_samples = []
+    
+    for sample in profile["samples"]:
+        if not sample.get("ai_analysis"):
+            continue  # Skip samples without AI analysis
+            
+        sample_analysis = sample["ai_analysis"]
+        score = 0
+        score_details = []
+        
+        # Score based on type match (2 points)
+        if sample_analysis.get("type") == request_analysis.get("type"):
+            score += 2
+            score_details.append("type match (+2)")
+        
+        # Score based on audience match (2 points)
+        if sample_analysis.get("audience") == request_analysis.get("audience"):
+            score += 2
+            score_details.append("audience match (+2)")
+        
+        # Score based on purpose match (1 point)
+        if sample_analysis.get("purpose") == request_analysis.get("purpose"):
+            score += 1
+            score_details.append("purpose match (+1)")
+        
+        # Score based on tone appropriateness (1 point)
+        # For casual audiences (team/colleague), prefer casual tone
+        # For formal audiences (client/external), prefer formal tone
+        request_audience = request_analysis.get("audience", "")
+        sample_tone = sample_analysis.get("tone", "")
+        
+        if request_audience in ["team", "colleague"] and sample_tone == "casual":
+            score += 1
+            score_details.append("casual tone for team (+1)")
+        elif request_audience in ["client", "external"] and sample_tone == "formal":
+            score += 1
+            score_details.append("formal tone for client (+1)")
+        elif request_audience == "personal" and sample_tone in ["casual", "neutral"]:
+            score += 1
+            score_details.append("appropriate personal tone (+1)")
+        
+        # Score based on tag overlap (1 point for any overlap)
+        request_topic = request_analysis.get("topic", "").lower()
+        sample_tags = [tag.lower() for tag in sample_analysis.get("tags", [])]
+        
+        # Check if any sample tags appear in the request topic
+        topic_words = request_topic.split()
+        if any(tag in topic_words or any(word in tag for word in topic_words) for tag in sample_tags):
+            score += 1
+            score_details.append("topic overlap (+1)")
+        
+        # Only include samples that meet the minimum score threshold
+        if score >= min_score:
+            scored_samples.append({
+                "sample": sample,
+                "score": score,
+                "score_details": score_details
+            })
+    
+    # Sort by score (highest first)
+    scored_samples.sort(key=lambda x: x["score"], reverse=True)
+    
+    return scored_samples
+
+def generate_text_with_style(request_analysis: Dict[str, Any], relevant_samples: list[Dict[str, Any]], api_key: str) -> Optional[str]:
+    """
+    Generate text that matches the user's writing style based on relevant samples.
+    
+    Args:
+        request_analysis: Analysis of the user's request (from analyze_request_with_ai)
+        relevant_samples: List of relevant samples with scores (from find_relevant_samples)
+        api_key: OpenAI API key
+        
+    Returns:
+        Generated text or None if generation failed
+    """
+    if not relevant_samples:
+        return None
+    
+    try:
+        client = openai.OpenAI(api_key=api_key)
+        
+        # Build style examples from the top 2-3 samples
+        top_samples = relevant_samples[:3]  # Use top 3 samples max
+        
+        style_examples = []
+        for scored_sample in top_samples:
+            sample = scored_sample["sample"]
+            style_examples.append(f'Example: "{sample["text"]}"')
+        
+        style_examples_text = "\n".join(style_examples)
+        
+        # Build the prompt
+        prompt = f"""Write a {request_analysis.get('type', 'message')} for {request_analysis.get('audience', 'the audience')} with the purpose of {request_analysis.get('purpose', 'communication')}.
+
+Topic: {request_analysis.get('topic', 'the requested topic')}
+
+Match the writing style of these examples:
+
+{style_examples_text}
+
+Requirements:
+- Match the tone, style, and communication patterns from the examples
+- Keep it natural and authentic to the user's voice
+- Be appropriate for the audience and purpose
+- Don't copy the examples directly, but write new content in the same style
+
+Write the {request_analysis.get('type', 'message')} now:"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # Using mini for cost efficiency
+            messages=[
+                {"role": "system", "content": "You are a writing assistant that matches user's personal writing style. Write naturally and authentically."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,  # Higher temperature for more natural variation
+            max_tokens=300
+        )
+        
+        generated_text = response.choices[0].message.content.strip()
+        return generated_text
+        
+    except Exception as e:
+        print(f"Text generation failed: {e}")
+        return None
+
+def generate_pose(user_request: str, api_key: str, model: str = "gpt-4o-mini") -> str:
+    """
+    Complete pipeline: analyze request, find relevant samples, and generate text.
+    
+    Args:
+        user_request: The user's writing request
+        api_key: OpenAI API key
+        model: AI model to use (default: gpt-4o-mini)
+        
+    Returns:
+        Generated text or error message
+    """
+    try:
+        # Step 1: Analyze the request
+        print("📊 Analyzing your request...")
+        request_analysis = analyze_request_with_ai(user_request, api_key)
+        if not request_analysis:
+            return "❌ Failed to analyze your request. Please try again."
+        
+        print(f"   Type: {request_analysis.get('type', 'N/A')}")
+        print(f"   Audience: {request_analysis.get('audience', 'N/A')}")
+        print(f"   Purpose: {request_analysis.get('purpose', 'N/A')}")
+        
+        # Step 2: Find relevant samples
+        print("🎯 Finding relevant writing samples...")
+        relevant_samples = find_relevant_samples(request_analysis, min_score=4)
+        
+        if not relevant_samples:
+            return "❌ No relevant writing samples found. Add more samples with 'poser add-sample <label> <text>' to improve matching."
+        
+        print(f"   Found {len(relevant_samples)} relevant sample(s)")
+        
+        # Step 3: Generate text
+        print("✨ Generating text in your style...")
+        generated_text = generate_text_with_style(request_analysis, relevant_samples, api_key)
+        
+        if not generated_text:
+            return "❌ Text generation failed. Please try again."
+        
+        print("✅ Generated successfully!")
+        return generated_text
+        
+    except Exception as e:
+        return f"❌ Error: {e}"
+
 def get_profile_status() -> tuple[bool, Optional[Dict[str, Any]]]:
     """
     Check profile status and return (is_new_user, profile_data).
