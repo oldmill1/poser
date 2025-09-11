@@ -191,6 +191,59 @@ Return only valid JSON, no other text."""
         print(f"AI analysis failed: {e}")
         return None
 
+def analyze_request_with_ai(user_request: str, api_key: str) -> Optional[Dict[str, Any]]:
+    """
+    Analyze a user's writing request to understand what they want to write.
+    
+    Args:
+        user_request: The user's request (e.g., "write a slack message about my new app")
+        api_key: OpenAI API key
+        
+    Returns:
+        Dict with request analysis or None if analysis failed
+    """
+    try:
+        client = openai.OpenAI(api_key=api_key)
+        
+        prompt = f"""Analyze this writing request and categorize what the user wants to write:
+
+Request: "{user_request}"
+
+The user may specify the communication type explicitly ("write a slack message") or implicitly ("slack: tell team about app" or "email my boss"). Infer the type from context if not explicitly stated.
+
+Please return a JSON object with:
+- type: email/slack/text/formal document (infer from context if not explicit)
+- audience: team/client/personal/external/colleague
+- purpose: update/request/complaint/inquiry/announcement/response/informational
+- topic: brief description of what they want to write about
+
+Return only valid JSON, no other text."""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",  # Using mini for cost efficiency
+            messages=[
+                {"role": "system", "content": "You are a writing request analyzer. Always return valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.1,  # Low temperature for consistent categorization
+            max_tokens=150
+        )
+        
+        # Parse the JSON response
+        analysis_text = response.choices[0].message.content.strip()
+        analysis = json.loads(analysis_text)
+        
+        # Validate the structure
+        required_fields = ["type", "audience", "purpose", "topic"]
+        if all(field in analysis for field in required_fields):
+            return analysis
+        else:
+            return None
+            
+    except Exception as e:
+        print(f"Request analysis failed: {e}")
+        return None
+
 def add_sample_to_profile(user_label: str, text: str, api_key: Optional[str] = None) -> bool:
     """
     Add a new writing sample to the user's profile.
