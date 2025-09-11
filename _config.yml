@@ -1,0 +1,169 @@
+# Poser - AI Writing Assistant
+site_name: "Poser"
+_theme: "dark"
+_title: "Poser - Your AI Writing Assistant That Actually Sounds Like You"
+
+# Key features
+features:
+  - "Personal style analysis from writing samples"
+  - "Context-aware text generation"
+  - "Command-line interface for easy usage"
+  - "OpenAI GPT integration"
+  - "Sample management and backup system"
+  - "Cross-platform Python support"
+
+# Quick start commands
+quick_start:
+  - "Install: `pip install -e .`"
+  - "Setup: `export OPENAI_API_KEY='your-key'`"
+  - "Check status: `poser`"
+  - "Generate text: `poser 'write a slack message about my app'`"
+
+# Project cards
+_card:
+  - name: "GitHub Repository"
+    description: "Source code, issues, and contributions"
+    url: "https://github.com/ataxali/poser"
+    status: "active"
+  - name: "Documentation"
+    description: "Complete usage guide and examples"
+    url: "https://github.com/ataxali/poser/blob/main/USAGE.md"
+    status: "active"
+  - name: "Installation"
+    description: "Get started with Poser in minutes"
+    url: "https://github.com/ataxali/poser#installation"
+    status: "active"
+
+# Footer
+_footer:
+  headline: "Built with ❤️ by [Ankur Taxali](https://github.com/ataxali) | [Star on GitHub](https://github.com/ataxali/poser)"
+
+# Multi-page configuration
+_page:
+  # Documentation Page
+  - _name: "Documentation"
+    _title: "Poser Documentation"
+    _footer:
+      headline: "Need help? Check the [Usage Guide](https://github.com/ataxali/poser/blob/main/USAGE.md)"
+    
+    installation:
+      - "Clone the repository: `git clone https://github.com/ataxali/poser.git`"
+      - "Navigate to directory: `cd poser`"
+      - "Create virtual environment: `python3 -m venv venv`"
+      - "Activate environment: `source venv/bin/activate` (Linux/Mac) or `venv\\Scripts\\activate` (Windows)"
+      - "Install package: `pip install -e .`"
+      - "Set up API key: `export OPENAI_API_KEY='your-api-key-here'`"
+    
+    basic_usage:
+      - "Check profile status: `poser`"
+      - "Generate text: `poser 'write a slack message about my new app deployment'`"
+      - "Add writing sample: `poser add-sample 'slack update' 'Hey team, quick update...'`"
+      - "List samples: `poser list-samples`"
+      - "Remove sample: `poser remove-sample sample_20250911_185212`"
+      - "Backup profile: `poser --backup`"
+    
+    how_it_works:
+      - "**Add Writing Samples**: Provide examples of your writing style"
+      - "**AI Analysis**: Poser analyzes each sample to understand your patterns"
+      - "**Smart Matching**: When requesting text, it finds relevant samples"
+      - "**Style Generation**: Generates new text that matches your authentic voice"
+    
+    example_output:
+      - "**Request**: `'write a slack message about my new app deployment'`"
+      - "**Generated**:"
+      - "```"
+      - "hey team,"
+      - ""
+      - "just a heads up that we've deployed the new version of the app! 🎉"
+      - "the commit hash is `b8f3e2c1d7a9c4e8a1c9e0f1b2c3d4e5f6a7890b`,"
+      - "and it includes a bunch of tweaks we talked about in the last sprint."
+      - ""
+      - "i've tested the main features in staging, and everything seems to be"
+      - "functioning as expected. however, i did notice a slight delay in some"
+      - "API responses—might be worth keeping an eye on."
+      - ""
+      - "let me know if you encounter any issues or if something feels off."
+      - "happy testing!"
+      - "```"
+    
+    requirements:
+      - "Python 3.8 or higher"
+      - "OpenAI API key"
+      - "Writing samples to train the system"
+
+  # Examples Page
+  - _name: "Examples"
+    _title: "Poser Examples & Use Cases"
+    _footer:
+      headline: "See more examples in the [README](https://github.com/ataxali/poser/blob/main/README.md)"
+    
+    use_cases:
+      - "**Slack Messages**: Quick team updates and announcements"
+      - "**Email Communication**: Professional emails to colleagues and clients"
+      - "**Social Media**: Posts that match your personal brand"
+      - "**Documentation**: Technical writing in your style"
+      - "**Meeting Notes**: Summaries and follow-up messages"
+      - "**Customer Support**: Responses that sound like you"
+    
+    sample_requests:
+      - "`poser 'write a slack message about my new app deployment'`"
+      - "`poser 'email my boss about project delays'`"
+      - "`poser 'write a LinkedIn post about my latest project'`"
+      - "`poser 'draft a thank you email to a client'`"
+      - "`poser 'write a status update for our team meeting'`"
+    
+    writing_samples:
+      - "**Slack Updates**: Include examples of your team communication style"
+      - "**Email Templates**: Professional and casual email examples"
+      - "**Social Posts**: Samples of your social media voice"
+      - "**Technical Writing**: Documentation or code comments"
+      - "**Personal Notes**: Informal communication examples"
+    
+    best_practices:
+      - "Provide diverse writing samples across different contexts"
+      - "Include examples that match your target use cases"
+      - "Regularly add new samples to improve accuracy"
+      - "Use descriptive tags when adding samples"
+      - "Backup your profile regularly"
+
+  # Community Page
+  - _name: "Community"
+    _title: "Poser Community & Support"
+    _footer:
+      headline: "Join our community! [GitHub Issues](https://github.com/ataxali/poser/issues) | [Discussions](https://github.com/ataxali/poser/discussions)"
+    
+    getting_help:
+      - "[GitHub Issues](https://github.com/ataxali/poser/issues) - Bug reports and feature requests"
+      - "[GitHub Discussions](https://github.com/ataxali/poser/discussions) - Community support and ideas"
+      - "[Usage Guide](https://github.com/ataxali/poser/blob/main/USAGE.md) - Complete documentation"
+      - "[README](https://github.com/ataxali/poser/blob/main/README.md) - Quick start and examples"
+    
+    contributing:
+      - "Fork the repository on GitHub"
+      - "Create a feature branch for your changes"
+      - "Submit a pull request with clear description"
+      - "Follow Python best practices and code style"
+      - "Add tests for new functionality"
+      - "Update documentation as needed"
+    
+    development:
+      - "Clone: `git clone https://github.com/ataxali/poser.git`"
+      - "Install: `pip install -e .`"
+      - "Run tests: `python -m pytest`"
+      - "Check code style: `python -m black poser/`"
+      - "Type checking: `python -m mypy poser/`"
+    
+    roadmap:
+      - "Enhanced style analysis algorithms"
+      - "Support for multiple writing personas"
+      - "Integration with popular editors (VS Code, etc.)"
+      - "Web interface for easier sample management"
+      - "Advanced context understanding"
+      - "Export/import profile functionality"
+    
+    acknowledgments:
+      - "Built with Python and OpenAI GPT"
+      - "Inspired by the need for authentic AI communication"
+      - "Designed for developers and professionals"
+      - "Open source and community-driven"
+      - "Special thanks to all contributors and users"
