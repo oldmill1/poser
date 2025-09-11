@@ -47,6 +47,27 @@ def main():
         help="Create a backup of your profile and delete it (start fresh)"
     )
     
+    # Handle add-sample as a special case
+    if len(sys.argv) > 1 and sys.argv[1] == "add-sample":
+        if len(sys.argv) < 4:
+            print("Usage: poser add-sample <label> <text>")
+            sys.exit(1)
+        user_label = sys.argv[2]
+        text = " ".join(sys.argv[3:])
+        
+        try:
+            from .core import add_sample_to_profile
+            if add_sample_to_profile(user_label, text):
+                print(f"Sample added successfully with label: '{user_label}'")
+                print(f"Text: {text[:50]}{'...' if len(text) > 50 else ''}")
+            else:
+                print("Error: Failed to add sample to profile")
+                sys.exit(1)
+        except Exception as e:
+            print(f"Error adding sample: {e}")
+            sys.exit(1)
+        return
+    
     parser.add_argument(
         "prompt",
         nargs="?",
@@ -82,6 +103,7 @@ def main():
             print(f"Error backing up and deleting profile: {e}")
             sys.exit(1)
         return
+    
     
     # Check profile status first
     try:

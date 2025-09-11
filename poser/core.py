@@ -31,6 +31,26 @@ def create_default_profile() -> Dict[str, Any]:
         "preferences": {}
     }
 
+def create_sample_structure(user_label: str, text: str) -> Dict[str, Any]:
+    """Create a sample structure with user label and text."""
+    sample_id = f"sample_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    word_count = len(text.split())
+    
+    return {
+        "id": sample_id,
+        "user_label": user_label,
+        "text": text,
+        "added_date": datetime.now().strftime("%Y-%m-%d"),
+        "word_count": word_count,
+        "ai_analysis": {
+            "type": None,        # Will be filled by AI analysis
+            "tone": None,        # Will be filled by AI analysis
+            "audience": None,    # Will be filled by AI analysis
+            "purpose": None,     # Will be filled by AI analysis
+            "tags": []          # Will be filled by AI analysis
+        }
+    }
+
 def load_profile() -> Optional[Dict[str, Any]]:
     """Load the user's profile from disk."""
     profile_path = get_profile_path()
@@ -117,6 +137,30 @@ def backup_and_delete_profile() -> bool:
     
     # Then delete the original profile
     return delete_profile()
+
+def add_sample_to_profile(user_label: str, text: str) -> bool:
+    """
+    Add a new writing sample to the user's profile.
+    
+    Args:
+        user_label: User's personal label for the sample
+        text: The actual writing sample text
+        
+    Returns:
+        bool: True if sample was added successfully, False otherwise
+    """
+    profile = load_profile()
+    if profile is None:
+        return False
+    
+    # Create new sample structure
+    new_sample = create_sample_structure(user_label, text)
+    
+    # Add to samples list
+    profile["samples"].append(new_sample)
+    
+    # Save updated profile
+    return save_profile(profile)
 
 def get_profile_status() -> tuple[bool, Optional[Dict[str, Any]]]:
     """
