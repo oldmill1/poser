@@ -47,13 +47,26 @@ def main():
         help="Create a backup of your profile and delete it (start fresh)"
     )
     
+    parser.add_argument(
+        "--override",
+        action="store_true",
+        help="Use closest samples even if they don't meet minimum score threshold"
+    )
+    
+    parser.add_argument(
+        "--personality",
+        help="Specify which personality to use for text generation (required)"
+    )
+    
     # Handle add-sample as a special case
     if len(sys.argv) > 1 and sys.argv[1] == "add-sample":
-        if len(sys.argv) < 4:
-            print("Usage: poser add-sample <label> <text>")
+        if len(sys.argv) < 5:
+            print("Usage: poser add-sample <personality> <label> <text>")
+            print("Example: poser add-sample 'casual' 'slack message' 'hey team, quick update...'")
             sys.exit(1)
-        user_label = sys.argv[2]
-        text = " ".join(sys.argv[3:])
+        personality = sys.argv[2]
+        user_label = sys.argv[3]
+        text = " ".join(sys.argv[4:])
         
         # Get API key for AI analysis
         api_key = os.getenv("OPENAI_API_KEY")
@@ -63,8 +76,8 @@ def main():
         
         try:
             from .core import add_sample_to_profile
-            if add_sample_to_profile(user_label, text, api_key):
-                print(f"Sample added successfully with label: '{user_label}'")
+            if add_sample_to_profile(personality, user_label, text, api_key):
+                print(f"Sample added successfully with personality: '{personality}' and label: '{user_label}'")
                 print(f"Text: {text[:50]}{'...' if len(text) > 50 else ''}")
             else:
                 print("Error: Failed to add sample to profile")
@@ -181,7 +194,7 @@ def main():
         # Import and use the main functionality
         try:
             from .core import generate_pose
-            result = generate_pose(args.prompt, api_key, args.model)
+            result = generate_pose(args.prompt, api_key, args.model, args.override, args.personality)
             print(result)
         except ImportError:
             print("I'd generate text but that's not built yet")

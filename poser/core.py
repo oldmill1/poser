@@ -32,13 +32,14 @@ def create_default_profile() -> Dict[str, Any]:
         "preferences": {}
     }
 
-def create_sample_structure(user_label: str, text: str) -> Dict[str, Any]:
-    """Create a sample structure with user label and text."""
+def create_sample_structure(personality: str, user_label: str, text: str) -> Dict[str, Any]:
+    """Create a sample structure with personality, user label and text."""
     sample_id = f"sample_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     word_count = len(text.split())
     
     return {
         "id": sample_id,
+        "personality": personality,
         "user_label": user_label,
         "text": text,
         "added_date": datetime.now().strftime("%Y-%m-%d"),
@@ -244,11 +245,12 @@ Return only valid JSON, no other text."""
         print(f"Request analysis failed: {e}")
         return None
 
-def add_sample_to_profile(user_label: str, text: str, api_key: Optional[str] = None) -> bool:
+def add_sample_to_profile(personality: str, user_label: str, text: str, api_key: Optional[str] = None) -> bool:
     """
     Add a new writing sample to the user's profile.
     
     Args:
+        personality: The personality name for this sample
         user_label: User's personal label for the sample
         text: The actual writing sample text
         api_key: Optional API key for AI analysis
@@ -261,7 +263,7 @@ def add_sample_to_profile(user_label: str, text: str, api_key: Optional[str] = N
         return False
     
     # Create new sample structure
-    new_sample = create_sample_structure(user_label, text)
+    new_sample = create_sample_structure(personality, user_label, text)
     
     # Run AI analysis if API key is provided
     if api_key:
@@ -317,13 +319,15 @@ def list_samples() -> Optional[list]:
     
     return profile.get("samples", [])
 
-def find_relevant_samples(request_analysis: Dict[str, Any], min_score: int = 4) -> list[Dict[str, Any]]:
+def find_relevant_samples(request_analysis: Dict[str, Any], min_score: int = 4, override: bool = False, personality: Optional[str] = None) -> list[Dict[str, Any]]:
     """
     Find writing samples that match a request analysis based on scoring criteria.
     
     Args:
         request_analysis: Analysis of the user's request (from analyze_request_with_ai)
         min_score: Minimum score required for a sample to be considered relevant (default: 4)
+        override: If True, include samples with any score > 0 even if below min_score
+        personality: If provided, only include samples from this personality
         
     Returns:
         List of relevant samples with their scores, sorted by score (highest first)
@@ -337,6 +341,10 @@ def find_relevant_samples(request_analysis: Dict[str, Any], min_score: int = 4) 
     for sample in profile["samples"]:
         if not sample.get("ai_analysis"):
             continue  # Skip samples without AI analysis
+            
+        # Filter by personality if specified
+        if personality and sample.get("personality") != personality:
+            continue  # Skip samples from different personalities
             
         sample_analysis = sample["ai_analysis"]
         score = 0
@@ -385,6 +393,12 @@ def find_relevant_samples(request_analysis: Dict[str, Any], min_score: int = 4) 
         
         # Only include samples that meet the minimum score threshold
         if score >= min_score:
+            scored_samples.append({
+                "sample": sample,
+                "score": score,
+                "score_details": score_details
+            })
+        elif override and score > 0:  # Override mode: include any sample with score > 0
             scored_samples.append({
                 "sample": sample,
                 "score": score,
@@ -458,7 +472,7 @@ Write the {request_analysis.get('type', 'message')} now:"""
         print(f"Text generation failed: {e}")
         return None
 
-def generate_pose(user_request: str, api_key: str, model: str = "gpt-4o-mini") -> str:
+def generate_pose(user_request: str, api_key: str, model: str = "gpt-4o-mini", override: bool = False, personality: Optional[str] = None) -> str:
     """
     Complete pipeline: analyze request, find relevant samples, and generate text.
     
@@ -466,11 +480,17 @@ def generate_pose(user_request: str, api_key: str, model: str = "gpt-4o-mini") -
         user_request: The user's writing request
         api_key: OpenAI API key
         model: AI model to use (default: gpt-4o-mini)
+        override: If True, use closest samples even if they don't meet minimum score
+        personality: The personality to use for generation (required)
         
     Returns:
         Generated text or error message
     """
     try:
+        # Validate personality is provided
+        if not personality:
+            return "❌ Personality is required. Use --personality <name> to specify which personality to use."
+        
         # Step 1: Analyze the request
         print("📊 Analyzing your request...")
         request_analysis = analyze_request_with_ai(user_request, api_key)
@@ -480,13 +500,17 @@ def generate_pose(user_request: str, api_key: str, model: str = "gpt-4o-mini") -
         print(f"   Type: {request_analysis.get('type', 'N/A')}")
         print(f"   Audience: {request_analysis.get('audience', 'N/A')}")
         print(f"   Purpose: {request_analysis.get('purpose', 'N/A')}")
+        print(f"   Personality: {personality}")
         
         # Step 2: Find relevant samples
         print("🎯 Finding relevant writing samples...")
-        relevant_samples = find_relevant_samples(request_analysis, min_score=4)
+        relevant_samples = find_relevant_samples(request_analysis, min_score=4, override=override, personality=personality)
         
         if not relevant_samples:
-            return "❌ No relevant writing samples found. Add more samples with 'poser add-sample <label> <text>' to improve matching."
+            if override:
+                return "❌ No samples found at all. Add some samples first."
+            else:
+                return "❌ No relevant writing samples found. Add more samples with 'poser add-sample <label> <text>' to improve matching."
         
         print(f"   Found {len(relevant_samples)} relevant sample(s)")
         
