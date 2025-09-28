@@ -1,23 +1,23 @@
 export const quotes = [
-  "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles.",
+  "Today I went to the grocery store and forgot my reusable bags again. The cashier gave me that look, you know the one. I ended up carrying everything in my arms like some kind of grocery juggler.",
   
-  "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity.",
+  "Local weather forecast calls for scattered showers this afternoon, with temperatures reaching a high of 72 degrees. The meteorologist on Channel 4 seems really excited about some low pressure system moving in from the west.",
   
-  "In the beginning was the Word, and the Word was with God, and the Word was God. He was with God in the beginning.",
+  "My neighbor's dog has been barking for three hours straight. I'm starting to think it's learned Morse code and is trying to communicate something important. Maybe it's warning us about the mailman.",
   
-  "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+  "The coffee shop on Main Street changed their Wi-Fi password again. It's now 'latte2024' which is at least better than last month's 'password123'. The barista said they change it every few weeks for security reasons.",
   
-  "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+  "Traffic was terrible on the way to work this morning. There was construction on the bridge, and everyone was merging into one lane. I think I saw the same car three times in different positions. It was like a vehicular conga line.",
   
-  "The way to get started is to quit talking and begin doing. The future belongs to those who believe in the beauty of their dreams.",
+  "I tried to make pasta for dinner but somehow managed to burn the water. I didn't even know that was possible. The smoke alarm went off and now my apartment smells like a chemistry lab.",
   
-  "Two roads diverged in a yellow wood, and sorry I could not travel both and be one traveler, long I stood and looked down one as far as I could to where it bent in the undergrowth.",
+  "The library is having a book sale this weekend. I told myself I wouldn't buy any more books until I finish the ones I already have, but that's never stopped me before. I have a problem.",
   
-  "I have a dream that one day this nation will rise up and live out the true meaning of its creed: 'We hold these truths to be self-evident, that all men are created equal.'",
+  "My phone died at 2 PM and I felt completely lost. I had to actually ask someone for directions, which felt like asking a stranger to help me tie my shoes. Technology has ruined my basic survival skills.",
   
-  "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle.",
+  "The local news reported that someone found a wallet in the park with $50 in it and turned it in to the police station. Faith in humanity restored, at least until the next story about someone stealing parking meters.",
   
-  "In three words I can sum up everything I've learned about life: it goes on. The woods are lovely, dark and deep, but I have promises to keep, and miles to go before I sleep."
+  "I spent twenty minutes looking for my keys this morning only to find them in the refrigerator. I have no memory of putting them there, but apparently past me thought it was a brilliant hiding spot."
 ];
 
 export function getRandomQuote(): string {

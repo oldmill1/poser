@@ -28,20 +28,15 @@
 
 <div class="{styles.leftColumn} {styles.dark}">
   <div class={styles.scriptEditor}>
-    <div class={styles.textareaContainer}>
-      <textarea 
-        id="script-controller"
-        name="script-controller"
-        class={styles.scriptController}
-        placeholder="Start writing, then press ⏎ when done..."
-        rows="8"
-        bind:value={text}
-        oninput={updateCounts}
-        onkeydown={handleKeydown}
-      ></textarea>
-      <div class={styles.quickEdit}>
-        <div class={styles.editIcon}>✏️</div>
-      </div>
-    </div>
+    <div class={styles.textareaContainer}><textarea 
+      id="script-controller"
+      name="script-controller"
+      class={styles.scriptController}
+      placeholder="Start writing, then press ⏎ when done..."
+      rows="8"
+      bind:value={text}
+      oninput={updateCounts}
+      onkeydown={handleKeydown}
+    ></textarea><div class={styles.editIcon}>✏️</div></div>
   </div>
 </div>
