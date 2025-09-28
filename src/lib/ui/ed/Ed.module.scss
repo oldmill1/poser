@@ -94,6 +94,12 @@ $color-accent-lavender: #b19cd9;
 
 .quickEdit {
   padding: 8px 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .editIcon {
