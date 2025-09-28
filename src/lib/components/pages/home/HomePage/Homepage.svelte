@@ -1,6 +1,52 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import styles from './Homepage.module.scss';
-  // Component logic here
+  
+  let isDarkMode = false;
+
+  // Cookie utility functions
+  function setCookie(name: string, value: string, days: number = 365) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+  }
+
+  function getCookie(name: string): string | null {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    setCookie('darkMode', isDarkMode.toString());
+    updateBodyClass();
+  }
+
+  function updateBodyClass() {
+    const pageContainer = document.querySelector(`.${styles.pageContainer}`);
+    if (pageContainer) {
+      if (isDarkMode) {
+        pageContainer.classList.add(styles.dark);
+      } else {
+        pageContainer.classList.remove(styles.dark);
+      }
+    }
+  }
+
+  onMount(() => {
+    // Check for saved dark mode preference
+    const savedDarkMode = getCookie('darkMode');
+    if (savedDarkMode === 'true') {
+      isDarkMode = true;
+      updateBodyClass();
+    }
+  });
 </script>
 
 <div class={styles.pageContainer}>
@@ -11,6 +57,9 @@
       <div class={styles.topBarActions}>
         <button class={styles.btn}>Save</button>
         <button class={styles.btn}>Export</button>
+        <button class={styles.btn} on:click={toggleDarkMode}>
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </div>
     </div>
 

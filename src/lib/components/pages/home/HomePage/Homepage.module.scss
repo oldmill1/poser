@@ -1,16 +1,52 @@
+// Dark Mode Color Palette
+$color-bg-dark: rgb(16, 20, 23);
+$color-bg-surface-dark: rgb(24, 30, 35);
+$color-bg-surface-mid: rgb(32, 40, 47);
+$color-bg-surface-light: rgb(40, 50, 59);
+
+$color-text-primary: #e8e8e8;
+$color-text-secondary: #b8b8b8;
+$color-text-disabled: #6a6a6a;
+
+$color-accent-lavender: #b19cd9;
+$color-accent-dusty-pink: #d4a5a5;
+$color-accent-mint: #a5d4b8;
+$color-accent-powder-blue: #a5c4d4;
+$color-accent-peach: #d4b8a5;
+$color-accent-pale-yellow: #d4d4a5;
+
+// Light Mode Colors (existing)
+$color-bg-light: #f5f5f5;
+$color-bg-white: #ffffff;
+$color-text-dark: #2c3e50;
+$color-text-muted: #7f8c8d;
+$color-primary: #3498db;
+$color-primary-hover: #2980b9;
+
 .pageContainer {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: $color-bg-light;
   padding: 20px;
+  transition: background-color 0.3s ease;
+
+  &.dark {
+    background-color: $color-bg-dark;
+  }
 }
 
 .container {
   max-width: 1080px;
   margin: 0 auto;
-  background-color: white;
+  background-color: $color-bg-white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  transition: background-color 0.3s ease;
+
+  .dark & {
+    background-color: $color-bg-surface-dark;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .topBar {
@@ -21,11 +57,17 @@
   background-color: #2c3e50;
   color: white;
   border-bottom: 1px solid #34495e;
+  transition: background-color 0.3s ease;
 
   h1 {
     margin: 0;
     font-size: 24px;
     font-weight: 600;
+  }
+
+  .dark & {
+    background-color: $color-bg-surface-mid;
+    border-bottom-color: $color-bg-surface-light;
   }
 }
 
@@ -36,21 +78,30 @@
 
 .btn {
   padding: 8px 16px;
-  background-color: #3498db;
+  background-color: $color-primary;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
 
   &:hover {
-    background-color: #2980b9;
+    background-color: $color-primary-hover;
   }
 
   &:active {
     transform: translateY(1px);
+  }
+
+  .dark & {
+    background-color: $color-accent-powder-blue;
+    color: $color-bg-dark;
+
+    &:hover {
+      background-color: $color-accent-mint;
+    }
   }
 }
 
@@ -63,19 +114,34 @@
   flex: 3;
   padding: 24px;
   border-right: 1px solid #e0e0e0;
+  transition: border-color 0.3s ease;
+
+  .dark & {
+    border-right-color: $color-bg-surface-light;
+  }
 }
 
 .rightColumn {
   flex: 1;
   padding: 24px;
   background-color: #fafafa;
+  transition: background-color 0.3s ease;
+
+  .dark & {
+    background-color: $color-bg-surface-mid;
+  }
 }
 
 .scriptEditor {
   h2 {
     margin: 0 0 16px 0;
     font-size: 20px;
-    color: #2c3e50;
+    color: $color-text-dark;
+    transition: color 0.3s ease;
+
+    .dark & {
+      color: $color-text-primary;
+    }
   }
 }
 
@@ -90,10 +156,24 @@
   line-height: 1.5;
   resize: vertical;
   outline: none;
+  background-color: white;
+  color: $color-text-dark;
+  transition: all 0.3s ease;
 
   &:focus {
-    border-color: #3498db;
+    border-color: $color-primary;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+
+  .dark & {
+    background-color: $color-bg-surface-light;
+    border-color: $color-bg-surface-light;
+    color: $color-text-primary;
+
+    &:focus {
+      border-color: $color-accent-lavender;
+      box-shadow: 0 0 0 2px rgba(177, 156, 217, 0.2);
+    }
   }
 }
 
@@ -101,9 +181,15 @@
   h3 {
     margin: 0 0 20px 0;
     font-size: 18px;
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
+    color: $color-text-dark;
+    border-bottom: 2px solid $color-primary;
     padding-bottom: 8px;
+    transition: all 0.3s ease;
+
+    .dark & {
+      color: $color-text-primary;
+      border-bottom-color: $color-accent-lavender;
+    }
   }
 }
 
@@ -113,9 +199,14 @@
   h4 {
     margin: 0 0 12px 0;
     font-size: 14px;
-    color: #7f8c8d;
+    color: $color-text-muted;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+
+    .dark & {
+      color: $color-text-secondary;
+    }
   }
 }
 
@@ -125,7 +216,7 @@
   padding: 10px 12px;
   margin-bottom: 8px;
   background-color: white;
-  color: #2c3e50;
+  color: $color-text-dark;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
@@ -134,9 +225,9 @@
   transition: all 0.2s;
 
   &:hover {
-    background-color: #3498db;
+    background-color: $color-primary;
     color: white;
-    border-color: #3498db;
+    border-color: $color-primary;
   }
 
   &:active {
@@ -145,5 +236,17 @@
 
   &:last-child {
     margin-bottom: 0;
+  }
+
+  .dark & {
+    background-color: $color-bg-surface-light;
+    color: $color-text-primary;
+    border-color: $color-bg-surface-light;
+
+    &:hover {
+      background-color: $color-accent-lavender;
+      color: $color-bg-dark;
+      border-color: $color-accent-lavender;
+    }
   }
 }
