@@ -1,8 +1,8 @@
 <script lang="ts">
   import styles from './+page.module.scss';
-  import TopBar from '$lib/components/topBar/TopBar.svelte';
-  import ScriptEditor from '$lib/components/scriptEditor/ScriptEditor.svelte';
-  import ToolsPanel from '$lib/components/toolsPanel/ToolsPanel.svelte';
+  import TopBar from '$lib/ui/topBar/TopBar.svelte';
+  import Ed from '$lib/ui/ed/Ed.svelte';
+  import Widgets from '$lib/ui/widgets/Widgets.svelte';
   
 </script>
 
@@ -14,10 +14,10 @@
     <!-- Content Container -->
     <div class={styles.contentContainer}>
       <!-- Left Column - Script Editor (3/4 width) -->
-      <ScriptEditor />
+      <Ed />
 
       <!-- Right Column - Editing Tools (1/4 width) -->
-      <ToolsPanel />
+      <Widgets />
     </div>
   </div>
 </div>

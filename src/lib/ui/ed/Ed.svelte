@@ -1,5 +1,5 @@
 <script lang="ts">
-  import styles from './ScriptEditor.module.scss';
+  import styles from './Ed.module.scss';
   
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import styles from './ToolsPanel.module.scss';
+  import styles from './Widgets.module.scss';
   
 </script>
 
