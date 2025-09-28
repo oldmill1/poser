@@ -16,8 +16,8 @@ $color-accent-peach: #d4b8a5;
 $color-accent-pale-yellow: #d4d4a5;
 
 // Light Mode Colors (existing)
-$color-bg-light: #f5f5f5;
-$color-bg-white: #ffffff;
+$color-bg-light: #f0f0e8;
+$color-bg-white: #f8f8f0;
 $color-text-dark: #2c3e50;
 $color-text-muted: #7f8c8d;
 $color-primary: #3498db;
@@ -26,7 +26,7 @@ $color-primary-hover: #2980b9;
 .pageContainer {
   min-height: 100vh;
   background-color: $color-bg-light;
-  padding: 20px;
+  padding: 0;
   transition: background-color 0.3s ease;
 
   &.dark {
@@ -35,17 +35,15 @@ $color-primary-hover: #2980b9;
 }
 
 .container {
-  max-width: 1080px;
-  margin: 0 auto;
-  background-color: $color-bg-white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 0;
+  background-color: transparent;
+  border-radius: 0;
   overflow: hidden;
   transition: background-color 0.3s ease;
 
   .dark & {
-    background-color: $color-bg-surface-dark;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
   }
 }
 
@@ -54,19 +52,20 @@ $color-primary-hover: #2980b9;
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  background-color: #2c3e50;
-  color: white;
-  border-bottom: 1px solid #34495e;
+  background-color: transparent;
+  color: $color-text-dark;
+  border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.3s ease;
 
   h1 {
     margin: 0;
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .dark & {
-    background-color: $color-bg-surface-mid;
+    background-color: transparent;
+    color: $color-text-primary;
     border-bottom-color: $color-bg-surface-light;
   }
 }
@@ -77,18 +76,18 @@ $color-primary-hover: #2980b9;
 }
 
 .btn {
-  padding: 8px 16px;
-  background-color: $color-primary;
-  color: white;
+  padding: 12px 20px;
+  background-color: transparent;
+  color: $color-text-dark;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   transition: all 0.2s;
 
   &:hover {
-    background-color: $color-primary-hover;
+    background-color: transparent;
   }
 
   &:active {
@@ -96,11 +95,11 @@ $color-primary-hover: #2980b9;
   }
 
   .dark & {
-    background-color: $color-accent-powder-blue;
-    color: $color-bg-dark;
+    background-color: transparent;
+    color: $color-text-primary;
 
     &:hover {
-      background-color: $color-accent-mint;
+      background-color: transparent;
     }
   }
 }
@@ -113,10 +112,12 @@ $color-primary-hover: #2980b9;
 .leftColumn {
   flex: 3;
   padding: 24px;
+  background-color: transparent;
   border-right: 1px solid #e0e0e0;
   transition: border-color 0.3s ease;
 
   .dark & {
+    background-color: transparent;
     border-right-color: $color-bg-surface-light;
   }
 }
@@ -124,11 +125,11 @@ $color-primary-hover: #2980b9;
 .rightColumn {
   flex: 1;
   padding: 24px;
-  background-color: #fafafa;
+  background-color: transparent;
   transition: background-color 0.3s ease;
 
   .dark & {
-    background-color: $color-bg-surface-mid;
+    background-color: transparent;
   }
 }
 
@@ -136,6 +137,7 @@ $color-primary-hover: #2980b9;
   h2 {
     margin: 0 0 16px 0;
     font-size: 20px;
+    font-weight: 400;
     color: $color-text-dark;
     transition: color 0.3s ease;
 
@@ -156,13 +158,12 @@ $color-primary-hover: #2980b9;
   line-height: 1.5;
   resize: vertical;
   outline: none;
-  background-color: white;
+  background-color: #fafaf0;
   color: $color-text-dark;
   transition: all 0.3s ease;
 
   &:focus {
     border-color: $color-primary;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
   }
 
   .dark & {
@@ -172,7 +173,6 @@ $color-primary-hover: #2980b9;
 
     &:focus {
       border-color: $color-accent-lavender;
-      box-shadow: 0 0 0 2px rgba(177, 156, 217, 0.2);
     }
   }
 }
@@ -181,6 +181,7 @@ $color-primary-hover: #2980b9;
   h3 {
     margin: 0 0 20px 0;
     font-size: 18px;
+    font-weight: 400;
     color: $color-text-dark;
     border-bottom: 2px solid $color-primary;
     padding-bottom: 8px;
@@ -215,7 +216,7 @@ $color-primary-hover: #2980b9;
   width: 100%;
   padding: 10px 12px;
   margin-bottom: 8px;
-  background-color: white;
+  background-color: #fafaf0;
   color: $color-text-dark;
   border: 1px solid #ddd;
   border-radius: 4px;

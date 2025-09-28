@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import styles from './Homepage.module.scss';
   
-  let isDarkMode = false;
+  let isDarkMode = true;
 
   // Cookie utility functions
   function setCookie(name: string, value: string, days: number = 365) {
@@ -25,40 +25,31 @@
   function toggleDarkMode() {
     isDarkMode = !isDarkMode;
     setCookie('darkMode', isDarkMode.toString());
-    updateBodyClass();
   }
 
   function updateBodyClass() {
-    const pageContainer = document.querySelector(`.${styles.pageContainer}`);
-    if (pageContainer) {
-      if (isDarkMode) {
-        pageContainer.classList.add(styles.dark);
-      } else {
-        pageContainer.classList.remove(styles.dark);
-      }
-    }
+    // No longer needed since we're using reactive classes
   }
 
   onMount(() => {
     // Check for saved dark mode preference
     const savedDarkMode = getCookie('darkMode');
-    if (savedDarkMode === 'true') {
-      isDarkMode = true;
-      updateBodyClass();
+    if (savedDarkMode === 'false') {
+      isDarkMode = false;
     }
   });
 </script>
 
-<div class={styles.pageContainer}>
+<div class="{styles.pageContainer} {isDarkMode ? styles.dark : ''}">
   <div class={styles.container}>
     <!-- Top Bar -->
     <div class={styles.topBar}>
-      <h1>Poser</h1>
+      <h1>🎭</h1>
       <div class={styles.topBarActions}>
-        <button class={styles.btn}>Save</button>
-        <button class={styles.btn}>Export</button>
+        <button class={styles.btn}>💾</button>
+        <button class={styles.btn}>📤</button>
         <button class={styles.btn} on:click={toggleDarkMode}>
-          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          {isDarkMode ? '💡' : '🌙'}
         </button>
       </div>
     </div>
@@ -68,7 +59,6 @@
       <!-- Left Column - Script Editor (3/4 width) -->
       <div class={styles.leftColumn}>
         <div class={styles.scriptEditor}>
-          <h2>Script Editor</h2>
           <textarea 
             class={styles.textarea}
             placeholder="Write your script here..."
@@ -80,8 +70,6 @@
       <!-- Right Column - Editing Tools (1/4 width) -->
       <div class={styles.rightColumn}>
         <div class={styles.toolsPanel}>
-          <h3>Editing Tools</h3>
-          
           <div class={styles.toolSection}>
             <h4>Actions</h4>
             <button class={styles.toolBtn}>Add Character</button>
