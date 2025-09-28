@@ -6,7 +6,7 @@
 <div class="{styles.rightColumn} {styles.dark}">
   <div class={styles.toolsPanel}>
     <div class={styles.toolSection}>
-      <h4>Editor</h4>
+      <h4>🎨 editor</h4>
       <button class={styles.toolBtn}>Light/Copy Edit</button>
     </div>
 

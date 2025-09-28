@@ -1,9 +1,13 @@
 <script lang="ts">
   import styles from './Ed.module.scss';
+  import { getRandomQuote } from '$lib/quotes';
   
-  let text = $state('');
+  let text = $state(getRandomQuote());
   let wordCount = $state(0);
   let sentenceCount = $state(0);
+  
+  // Initialize counts when component loads
+  updateCounts();
   
   function updateCounts() {
     const trimmedText = text.trim();

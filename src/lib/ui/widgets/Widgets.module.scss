@@ -34,7 +34,6 @@ $color-accent-lavender: #b19cd9;
     margin: 0 0 12px 0;
     font-size: 14px;
     color: $color-text-secondary;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 }
@@ -49,8 +48,8 @@ $color-accent-lavender: #b19cd9;
   border: 1px solid $color-bg-surface-light;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 400;
   text-align: left;
   transition: all 0.2s;
 
