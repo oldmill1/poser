@@ -1,0 +1,60 @@
+// Dark Mode Color Palette
+$color-text-primary: #e8e8e8;
+$color-text-dark: #2c3e50;
+$color-primary: #3498db;
+$color-primary-hover: #2980b9;
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: transparent;
+  color: $color-text-dark;
+  transition: background-color 0.3s ease;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  .dark & {
+    background-color: transparent;
+    color: $color-text-primary;
+  }
+}
+
+.topBarActions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 12px 20px;
+  background-color: transparent;
+  color: $color-text-dark;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  .dark & {
+    background-color: transparent;
+    color: $color-text-primary;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

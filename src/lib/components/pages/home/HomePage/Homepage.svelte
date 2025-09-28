@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import styles from './Homepage.module.scss';
+  import TopBar from '$lib/components/shared/topBar/TopBar.svelte';
+  import ScriptEditor from '$lib/components/shared/scriptEditor/ScriptEditor.svelte';
+  import ToolsPanel from '$lib/components/shared/toolsPanel/ToolsPanel.svelte';
   
   let isDarkMode = true;
 
@@ -43,62 +46,15 @@
 <div class="{styles.pageContainer} {isDarkMode ? styles.dark : ''}">
   <div class={styles.container}>
     <!-- Top Bar -->
-    <div class={styles.topBar}>
-      <h1>🎭</h1>
-      <div class={styles.topBarActions}>
-        <button class={styles.btn}>💾</button>
-        <button class={styles.btn}>📤</button>
-        <button class={styles.btn} on:click={toggleDarkMode}>
-          {isDarkMode ? '💡' : '🌙'}
-        </button>
-      </div>
-    </div>
+    <TopBar {isDarkMode} onToggleDarkMode={toggleDarkMode} />
 
     <!-- Content Container -->
     <div class={styles.contentContainer}>
       <!-- Left Column - Script Editor (3/4 width) -->
-      <div class={styles.leftColumn}>
-        <div class={styles.scriptEditor}>
-          <textarea 
-            class={styles.textarea}
-            placeholder="Write your script here..."
-            rows="20"
-          ></textarea>
-        </div>
-      </div>
+      <ScriptEditor {isDarkMode} />
 
       <!-- Right Column - Editing Tools (1/4 width) -->
-      <div class={styles.rightColumn}>
-        <div class={styles.toolsPanel}>
-          <div class={styles.toolSection}>
-            <h4>Actions</h4>
-            <button class={styles.toolBtn}>Add Character</button>
-            <button class={styles.toolBtn}>Add Scene</button>
-            <button class={styles.toolBtn}>Add Dialogue</button>
-          </div>
-
-          <div class={styles.toolSection}>
-            <h4>Formatting</h4>
-            <button class={styles.toolBtn}>Bold</button>
-            <button class={styles.toolBtn}>Italic</button>
-            <button class={styles.toolBtn}>Underline</button>
-          </div>
-
-          <div class={styles.toolSection}>
-            <h4>Export Options</h4>
-            <button class={styles.toolBtn}>PDF</button>
-            <button class={styles.toolBtn}>Word</button>
-            <button class={styles.toolBtn}>HTML</button>
-          </div>
-
-          <div class={styles.toolSection}>
-            <h4>Settings</h4>
-            <button class={styles.toolBtn}>Preferences</button>
-            <button class={styles.toolBtn}>Themes</button>
-            <button class={styles.toolBtn}>Help</button>
-          </div>
-        </div>
-      </div>
+      <ToolsPanel {isDarkMode} />
     </div>
   </div>
 </div>

@@ -1,0 +1,97 @@
+// Dark Mode Color Palette
+$color-bg-dark: rgb(16, 20, 23);
+$color-bg-surface-dark: rgb(24, 30, 35);
+$color-bg-surface-mid: rgb(32, 40, 47);
+$color-bg-surface-light: rgb(40, 50, 59);
+$color-text-primary: #e8e8e8;
+$color-text-secondary: #b8b8b8;
+$color-text-muted: #7f8c8d;
+$color-text-dark: #2c3e50;
+$color-primary: #3498db;
+$color-accent-lavender: #b19cd9;
+
+.rightColumn {
+  flex: 1;
+  padding: 24px;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+
+  .dark & {
+    background-color: transparent;
+  }
+}
+
+.toolsPanel {
+  h3 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 400;
+    color: $color-text-dark;
+    border-bottom: 2px solid $color-primary;
+    padding-bottom: 8px;
+    transition: all 0.3s ease;
+
+    .dark & {
+      color: $color-text-primary;
+      border-bottom-color: $color-accent-lavender;
+    }
+  }
+}
+
+.toolSection {
+  margin-bottom: 24px;
+
+  h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+
+    .dark & {
+      color: $color-text-secondary;
+    }
+  }
+}
+
+.toolBtn {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background-color: #fafaf0;
+  color: $color-text-dark;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $color-primary;
+    color: white;
+    border-color: $color-primary;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .dark & {
+    background-color: $color-bg-surface-light;
+    color: $color-text-primary;
+    border-color: $color-bg-surface-light;
+
+    &:hover {
+      background-color: $color-accent-lavender;
+      color: $color-bg-dark;
+      border-color: $color-accent-lavender;
+    }
+  }
+}
