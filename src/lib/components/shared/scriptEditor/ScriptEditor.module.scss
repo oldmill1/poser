@@ -23,21 +23,22 @@ $color-accent-lavender: #b19cd9;
   }
 }
 
-.textarea {
+.scriptController {
   width: 100%;
-  min-height: 200px;
+  height: 120px;
   padding: 16px;
   border: none;
-  border-radius: 0;
   font-family: 'Work Sans', sans-serif;
-  font-size: 1.2rem;
-  line-height: 1.5;
+  font-size: 1.5rem;
+  line-height: 1.8;
   resize: vertical;
   outline: none;
   box-shadow: none;
-  background-color: transparent;
-  color: $color-text-primary;
+  background-color: rgb(20, 25, 35);
+  color: rgb(180, 185, 195);
+  text-shadow: none;
   transition: all 0.3s ease;
+  border-radius: 16px;
 
   &:focus {
     border: none;

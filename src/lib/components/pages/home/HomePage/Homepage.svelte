@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import styles from './Homepage.module.scss';
   import TopBar from '$lib/components/shared/topBar/TopBar.svelte';
   import ScriptEditor from '$lib/components/shared/scriptEditor/ScriptEditor.svelte';

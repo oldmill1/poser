@@ -6,8 +6,10 @@
 <div class="{styles.leftColumn} {styles.dark}">
   <div class={styles.scriptEditor}>
     <textarea 
-      class={styles.textarea}
-      placeholder="Start writing, then press Enter when done..."
+      id="script-controller"
+      name="script-controller"
+      class={styles.scriptController}
+      placeholder="Start writing, then press ⏎ when done..."
       rows="8"
     ></textarea>
   </div>
