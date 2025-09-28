@@ -10,18 +10,12 @@ $color-primary-hover: #2980b9;
   align-items: center;
   padding: 16px 24px;
   background-color: transparent;
-  color: $color-text-dark;
-  transition: background-color 0.3s ease;
+  color: $color-text-primary;
 
   h1 {
     margin: 0;
     font-size: 24px;
     font-weight: 400;
-  }
-
-  .dark & {
-    background-color: transparent;
-    color: $color-text-primary;
   }
 }
 
@@ -33,7 +27,7 @@ $color-primary-hover: #2980b9;
 .btn {
   padding: 12px 20px;
   background-color: transparent;
-  color: $color-text-dark;
+  color: $color-text-primary;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -47,14 +41,5 @@ $color-primary-hover: #2980b9;
 
   &:active {
     transform: translateY(1px);
-  }
-
-  .dark & {
-    background-color: transparent;
-    color: $color-text-primary;
-
-    &:hover {
-      background-color: transparent;
-    }
   }
 }

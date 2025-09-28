@@ -1,10 +1,9 @@
 <script lang="ts">
   import styles from './ToolsPanel.module.scss';
   
-  let { isDarkMode } = $props();
 </script>
 
-<div class="{styles.rightColumn} {isDarkMode ? styles.dark : ''}">
+<div class="{styles.rightColumn} {styles.dark}">
   <div class={styles.toolsPanel}>
     <div class={styles.toolSection}>
       <h4>Actions</h4>

@@ -14,11 +14,6 @@ $color-accent-lavender: #b19cd9;
   flex: 1;
   padding: 24px;
   background-color: transparent;
-  transition: background-color 0.3s ease;
-
-  .dark & {
-    background-color: transparent;
-  }
 }
 
 .toolsPanel {
@@ -26,15 +21,9 @@ $color-accent-lavender: #b19cd9;
     margin: 0 0 20px 0;
     font-size: 18px;
     font-weight: 400;
-    color: $color-text-dark;
-    border-bottom: 2px solid $color-primary;
+    color: $color-text-primary;
+    border-bottom: 2px solid $color-accent-lavender;
     padding-bottom: 8px;
-    transition: all 0.3s ease;
-
-    .dark & {
-      color: $color-text-primary;
-      border-bottom-color: $color-accent-lavender;
-    }
   }
 }
 
@@ -44,14 +33,9 @@ $color-accent-lavender: #b19cd9;
   h4 {
     margin: 0 0 12px 0;
     font-size: 14px;
-    color: $color-text-muted;
+    color: $color-text-secondary;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: color 0.3s ease;
-
-    .dark & {
-      color: $color-text-secondary;
-    }
   }
 }
 
@@ -60,9 +44,9 @@ $color-accent-lavender: #b19cd9;
   width: 100%;
   padding: 10px 12px;
   margin-bottom: 8px;
-  background-color: #fafaf0;
-  color: $color-text-dark;
-  border: 1px solid #ddd;
+  background-color: $color-bg-surface-light;
+  color: $color-text-primary;
+  border: 1px solid $color-bg-surface-light;
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
@@ -70,9 +54,9 @@ $color-accent-lavender: #b19cd9;
   transition: all 0.2s;
 
   &:hover {
-    background-color: $color-primary;
-    color: white;
-    border-color: $color-primary;
+    background-color: $color-accent-lavender;
+    color: $color-bg-dark;
+    border-color: $color-accent-lavender;
   }
 
   &:active {
@@ -81,17 +65,5 @@ $color-accent-lavender: #b19cd9;
 
   &:last-child {
     margin-bottom: 0;
-  }
-
-  .dark & {
-    background-color: $color-bg-surface-light;
-    color: $color-text-primary;
-    border-color: $color-bg-surface-light;
-
-    &:hover {
-      background-color: $color-accent-lavender;
-      color: $color-bg-dark;
-      border-color: $color-accent-lavender;
-    }
   }
 }

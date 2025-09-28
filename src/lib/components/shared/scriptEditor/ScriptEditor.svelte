@@ -1,15 +1,14 @@
 <script lang="ts">
   import styles from './ScriptEditor.module.scss';
   
-  let { isDarkMode } = $props();
 </script>
 
-<div class="{styles.leftColumn} {isDarkMode ? styles.dark : ''}">
+<div class="{styles.leftColumn} {styles.dark}">
   <div class={styles.scriptEditor}>
     <textarea 
       class={styles.textarea}
-      placeholder="Write your script here..."
-      rows="20"
+      placeholder="Start writing, then press Enter when done..."
+      rows="8"
     ></textarea>
   </div>
 </div>
