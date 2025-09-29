@@ -1,6 +1,6 @@
 <script lang="ts">
   import styles from './+page.module.scss';
-  import Ed from '$lib/ui/ed/ed.svelte';
+  import Editor from '$lib/ui/editor/editor.svelte';
   
 </script>
 
@@ -10,7 +10,7 @@
     <!-- Content Container -->
     <div class={styles.contentContainer}>
       <!-- Full Width Editor -->
-      <Ed />
+      <Editor />
     </div>
   </div>
 </div>

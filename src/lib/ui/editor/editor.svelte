@@ -1,5 +1,5 @@
 <script lang="ts">
-  import styles from './Ed.module.scss';
+  import styles from './editor.module.scss';
   import { getRandomQuote } from '$lib/quotes';
   
   let text = $state(getRandomQuote());
