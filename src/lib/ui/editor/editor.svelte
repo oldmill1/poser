@@ -26,7 +26,7 @@
     }
   }
 
-  async function handleEdit() {
+  async function handleEdit(editType: 'light' | 'line' | 'developmental') {
     if (!text.trim() || isLoading) {
       console.log('No text to edit or already loading');
       return;
@@ -42,7 +42,8 @@
         },
         body: JSON.stringify({
           message: text,
-          isEdit: true
+          isEdit: true,
+          editType: editType
         })
       });
 
@@ -62,8 +63,20 @@
         console.log('Diff:', data.diff);
         updateCounts();
       } else if (data.response) {
-        // Fallback to old format
-        text = data.response;
+        // Fallback to old format - try to parse if it's a JSON string
+        try {
+          const parsedResponse = JSON.parse(data.response);
+          if (parsedResponse.text) {
+            text = parsedResponse.text;
+            console.log('Analysis:', parsedResponse.analysis);
+            console.log('Diff:', parsedResponse.diff);
+          } else {
+            text = data.response;
+          }
+        } catch {
+          // If not JSON, use as plain text
+          text = data.response;
+        }
         updateCounts();
       }
     } catch (error) {
@@ -88,8 +101,16 @@
         onkeydown={handleKeydown}
         disabled={isLoading}
       ></textarea>
-      <button class={styles.quickEdit} onclick={handleEdit} type="button" aria-label="Edit text with AI" disabled={isLoading}>
-        <div class={styles.editIcon}>✏️</div>
+    </div>
+    <div class={styles.editButtons}>
+      <button class={styles.editButton} onclick={() => handleEdit('light')} type="button" disabled={isLoading}>
+        Light/Copy Edit
+      </button>
+      <button class={styles.editButton} onclick={() => handleEdit('line')} type="button" disabled={isLoading}>
+        Line Edit
+      </button>
+      <button class={styles.editButton} onclick={() => handleEdit('developmental')} type="button" disabled={isLoading}>
+        Developmental/Structural Edit
       </button>
     </div>
   </div>

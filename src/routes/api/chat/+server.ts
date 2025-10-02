@@ -9,7 +9,7 @@ const openai = new OpenAI({
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
-		const { message, isEdit } = await request.json();
+		const { message, isEdit, editType } = await request.json();
 
 		if (!message) {
 			return json({ error: 'Message is required' }, { status: 400 });
@@ -19,18 +19,49 @@ export const POST: RequestHandler = async ({ request }) => {
 		let userMessage = message;
 
 		if (isEdit) {
-			systemPrompt = `You are a professional copy editor. Please perform a light/copy edit on the following text:
-
-Light/Copy Edit Guidelines:
+			let editGuidelines = '';
+			
+			switch (editType) {
+				case 'light':
+					editGuidelines = `Light/Copy Edit Guidelines:
 - Fix grammar, spelling, punctuation
 - Ensure consistency in style and formatting
 - Make minor clarity improvements
-- Preserve the author's voice
+- Preserve the author's voice`;
+					break;
+				case 'line':
+					editGuidelines = `Line Edit Guidelines:
+- Focuses on flow and readability at the sentence level
+- Improves word choice and eliminates redundancy
+- Enhances rhythm and pacing
+- Strengthens transitions between paragraphs`;
+					break;
+				case 'developmental':
+					editGuidelines = `Developmental/Structural Edit Guidelines:
+- Big-picture analysis of content and organization
+- Identifies plot holes (fiction) or logical gaps (non-fiction)
+- Suggests restructuring chapters or sections
+- Addresses pacing, character development, or argument strength
+- May recommend adding or cutting entire sections`;
+					break;
+				default:
+					editGuidelines = `Light/Copy Edit Guidelines:
+- Fix grammar, spelling, punctuation
+- Ensure consistency in style and formatting
+- Make minor clarity improvements
+- Preserve the author's voice`;
+			}
+
+			systemPrompt = `You are a professional editor. Your task is to EDIT and IMPROVE the provided text, NOT to answer questions or provide information about the topic.
+
+IMPORTANT: Take the user's text and rewrite it to be clearer, more engaging, and better structured. Do NOT answer the question they're asking - instead, improve how they've asked it.
+
+${editGuidelines}
 
 Return your response in the following JSON format:
 {
-  "text": "the edited text here",
-  "analysis": "Brief explanation of what changes were made, or if no changes were needed",
+  "text": "the edited/improved version of their text",
+  "analysis": "Brief explanation of what changes were made to improve the text",
   "diff": "X characters added, Y characters removed (or 'no changes' if unchanged)"
 }`;
 		}
