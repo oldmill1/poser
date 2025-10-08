@@ -12,5 +12,10 @@
       <!-- Full Width Editor -->
       <Editor />
     </div>
+    
+    <!-- Footer Credit -->
+    <div class={styles.footerCredit}>
+      Made by <a href="https://github.com/oldmill1" target="_blank" rel="noopener noreferrer">Ankur Taxali</a>
+    </div>
   </div>
 </div>
